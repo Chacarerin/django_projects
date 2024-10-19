@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Tarea{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>¿Estás seguro de que deseas eliminar esta tarea?</h2>
+    <p><strong>Título:</strong> {{ tarea.titulo }}</p>
+    <p><strong>Descripción:</strong> {{ tarea.descripcion }}</p>
+
+    <!-- Formulario para confirmar la eliminación -->
+    <form method="post" action="{% url 'eliminar_tarea' tarea.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Eliminar Tarea</button>
+    </form>
+
+    <!-- Botón para cancelar -->
+    <a href="{% url 'lista_tareas' %}" class="btn btn-secondary mt-3">Cancelar</a>
+</div>
+{% endblock %}

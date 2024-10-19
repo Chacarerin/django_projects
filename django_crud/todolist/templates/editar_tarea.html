@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Tarea{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Editar Tarea</h2>
+
+    <!-- Formulario para editar tarea -->
+    <form method="post" action="{% url 'editar_tarea' tarea.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    </form>
+
+    <!-- Botón para volver a la lista de tareas -->
+    <a href="{% url 'lista_tareas' %}" class="btn btn-secondary mt-3">Volver a la lista de tareas</a>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Tareas{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Lista de Tareas</h2>
+
+    <!-- Mostrar el botón "Agregar Tarea" solo si el usuario tiene el permiso "editor_access" -->
+    {% if user_is_editor %}
+        <a href="{% url 'agregar_tarea' %}" class="btn btn-primary mb-3">Agregar Tarea</a>
+    {% endif %}
+
+    <!-- Tabla con la lista de tareas -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Fecha ingreso</th>
+                <th>Creado por</th> <!-- Nueva columna para el usuario -->
+                {% if user_is_editor %}
+                    <th>Acciones</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for tarea in tareas %}
+                <tr>
+                    <td>{{ tarea.titulo }}</td>
+                    <td>{{ tarea.descripcion }}</td>
+                    <td>{% if tarea.completado %}Completado{% else %}No completado{% endif %}</td>
+                    <td>{{ tarea.creado }}</td>
+                    <td>{{ tarea.usuario.username }}</td> <!-- Mostrar el nombre de usuario -->
+                    {% if user_is_editor %}
+                        <td>
+                            <a href="{% url 'editar_tarea' tarea.pk %}" class="btn btn-warning btn-sm">Editar</a>
+                            <a href="{% url 'eliminar_tarea' tarea.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">No hay tareas disponibles.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p>Número de visitas: {{ visitas }}</p>
+</div>
+{% endblock %}
