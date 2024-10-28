@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.titulo }}{% endblock %}
+
+{% block content %}
+<div class="post-container">
+    <!-- Cabecera del Post -->
+    <div class="post-header">
+        <h1 class="post-title">{{ post.titulo }}</h1>
+        <div class="post-meta">
+            <span class="post-author">Escrito por {{ post.autor.username }}</span>
+            <span class="post-date">• {{ post.fecha_creacion|date:"F d, Y" }}</span>
+        </div>
+    </div>
+
+    <!-- Imagen destacada del Post -->
+    {% if post.imagen %}
+        <div class="post-image">
+            <img src="{{ post.imagen.url }}" alt="{{ post.titulo }}">
+        </div>
+    {% endif %}
+
+    <!-- Contenido del Post -->
+    <div class="post-content">
+        {{ post.contenido|safe }}
+    </div>
+
+    <!-- Opciones de interacción -->
+    <div class="post-actions">
+        <span class="post-views">👁️ {{ post.vistas }} vistas</span>
+        <span class="post-likes">❤️ {{ post.likes_count }} likes</span>
+        <span class="post-comments">💬 {{ post.comentarios.count }} comentarios</span>
+    </div>
+</div>
+
+<!-- Sección de comentarios -->
+<div class="comments-section mt-5">
+    <h3>Comentarios</h3>
+    {% for comentario in comentarios %}
+        <div class="comment">
+            <p><strong>{{ comentario.nombre }}</strong> <small class="text-muted">{{ comentario.fecha|date:"F d, Y" }}</small></p>
+            <p>{{ comentario.cuerpo }}</p>
+        </div>
+    {% empty %}
+        <p>No hay comentarios aún.</p>
+    {% endfor %}
+</div>
+
+<!-- Formulario para añadir un comentario -->
+<div class="comment-form mt-4">
+    <h4>Añadir un comentario</h4>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Comentar</button>
+    </form>
+</div>
+{% endblock %}
