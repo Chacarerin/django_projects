@@ -1,0 +1,19 @@
+<!-- web/templates/arrendar_equipo.html -->
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Arrendar {{ equipo.nombre }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Fecha</label>
+            {{ form.fecha }}
+        </div>
+        <div class="form-group">
+            <label>Observación</label>
+            {{ form.observacion }}
+        </div>
+        <button type="submit" class="btn btn-primary">Confirmar Arriendo</button>
+    </form>
+</div>
+{% endblock %}
