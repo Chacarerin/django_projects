@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Laboratorios{% endblock %}
+
+{% block content %}
+<h1>Información de Laboratorios</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Ciudad</th>
+            <th>País</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for laboratorio in laboratorios %}
+        <tr>
+            <td>{{ laboratorio.nombre }}</td>
+            <td>{{ laboratorio.ciudad }}</td>
+            <td>{{ laboratorio.pais }}</td>
+            <td><a href="{% url 'editar_laboratorio' laboratorio.id %}" class="btn btn-warning">Actualizar</a></td>
+            <td><a href="{% url 'eliminar_laboratorio' laboratorio.id %}" class="btn btn-danger">Eliminar</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p>¿Información de los Laboratorios?</p>
+<a href="{% url 'index' %}"> <-- Ir a la página de Inicio</a>
+
+<p>Usted ha visitado esta página {{ request.session.visitas|default:0 }} veces.</p>
+
+{% endblock %}
