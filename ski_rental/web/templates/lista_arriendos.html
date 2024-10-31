@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Arriendos</h2>
+    
+    {% if user.userprofile.tipo == 'operario' %}
+        <table class="table table-bordered text-center mt-3">
+            <thead class="bg-success text-white">
+                <tr>
+                    <th>Equipo</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Observación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for arriendo in arriendos %}
+                <tr>
+                    <td>{{ arriendo.equipo.nombre }}</td>
+                    <td>{{ arriendo.fecha|date:"d/m/Y" }}</td>
+                    <td>{{ arriendo.user.first_name }} {{ arriendo.user.last_name }}</td>
+                    <td>
+                        <form method="post" action="{% url 'agregar_observacion' arriendo.id %}">
+                            {% csrf_token %}
+                            <input type="text" name="observacion" value="{{ arriendo.observacion }}" class="form-control" placeholder="nota...">
+                    </td>
+                    <td>
+                            <button type="submit" class="btn btn-primary">Comentar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No hay arriendos disponibles.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-center text-danger">No tienes permiso para ver esta página.</p>
+    {% endif %}
+</div>
+{% endblock %}

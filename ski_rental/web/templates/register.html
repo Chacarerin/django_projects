@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Crea un Usuario</h2>
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_email">Email</label>
+            {{ form.email }}
+        </div>
+        <div class="form-group">
+            <label for="id_first_name">Nombre</label>
+            {{ form.first_name }}
+        </div>
+        <div class="form-group">
+            <label for="id_username">Nombre de Usuario</label>
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            <label for="id_password1">Contraseña</label>
+            {{ form.password1 }}
+        </div>
+        <div class="form-group">
+            <label for="id_password2">Confirma Contraseña</label>
+            {{ form.password2 }}
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Crear</button>
+    </form>
+</div>
+{% endblock %}

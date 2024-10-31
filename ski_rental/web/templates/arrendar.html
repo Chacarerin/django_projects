@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Arrendar</h2>
+    <div class="card mx-auto" style="max-width: 400px;">
+        <div class="card-body text-center">
+            <h5 class="card-title">{{ equipo.nombre }}</h5>
+            
+            <!-- Imagen del producto -->
+            <img src="{{ equipo.imagen }}" alt="Imagen de {{ equipo.nombre }}" class="img-fluid mb-3" style="max-height: 200px; object-fit: contain;">
+            
+            <p class="card-text">${{ equipo.precio }}</p>
+            
+            <!-- Formulario para seleccionar la fecha de arriendo -->
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="fecha">Fecha</label>
+                    <input type="date" name="fecha" id="fecha" class="form-control" min="{{ hoy }}" required>
+                </div>
+                <button type="submit" class="btn btn-success btn-block">Arrendar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
