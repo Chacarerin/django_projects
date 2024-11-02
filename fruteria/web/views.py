@@ -1,18 +1,30 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import RegistroForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib import messages
 
 def index(request):
     return render(request, 'index.html')
+
+@login_required
+@user_passes_test(lambda u: u.userprofile.tipo == 'administrador')
+def ventas(request):
+    return render(request, 'ventas.html')
+
+@login_required
+@user_passes_test(lambda u: u.userprofile.tipo == 'administrador')
+def stock(request):
+    return render(request, 'stock.html')
 
 def register(request):
     if request.method == "POST":
         form = RegistroForm(request.POST)
         if form.is_valid():
             form.save()  # Crea el usuario y el perfil con tipo "cliente"
+            messages.success(request, "Registro exitoso. Por favor, inicia sesión.")
             return redirect("login")
     else:
         form = RegistroForm()
@@ -32,6 +44,7 @@ def login_view(request):
 @login_required
 def logout_view(request):
     logout(request)
+    messages.success(request, "Has cerrado sesión exitosamente.")
     return redirect("login")  # Redirigir a la página de login al cerrar sesión
 
 @login_required
