@@ -7,11 +7,24 @@ from datetime import timedelta, date
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import CustomUserCreationForm
+from .models import Libro, Categoria
 
 
-#@login_required
-def index(request):
+@login_required
+def book_list(request):
+    # Obtener todas las categorías para el filtro
+    categorias = Categoria.objects.all()
+    
+    # Filtrar libros por categoría seleccionada (si existe)
+    categoria_id = request.GET.get('categoria')
+    if categoria_id:
+        libros = Libro.objects.filter(categoria_id=categoria_id)
+    else:
+        libros = Libro.objects.all()
+
     context = {
+        'libros': libros,
+        'categorias': categorias,
     }
     return render(request, 'index.html', context)
 
