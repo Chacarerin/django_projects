@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Retornar: {{ libro.nombre }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Retornar: {{ libro.titulo }}</h3>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="fecha_devolucion_real" class="form-label">Seleccione Fecha</label>
+            <input type="date" id="fecha_devolucion_real" name="fecha_devolucion_real" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Retornar</button>
+    </form>
+</div>
+{% endblock %}

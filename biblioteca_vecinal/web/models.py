@@ -26,7 +26,8 @@ class Libro(models.Model):
     descripcion = models.TextField(blank=True, null=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name="libros")
     tipo = models.ForeignKey(TipoLibro, on_delete=models.CASCADE, related_name="libros")
-    disponible = models.BooleanField(default=True)
+    cantidad_disponible = models.IntegerField(default=1)
+    cantidad_total = models.IntegerField(default=1)
 
     def __str__(self):
         return f"{self.titulo} - {self.autor}"

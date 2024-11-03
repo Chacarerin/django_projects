@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Categoria, TipoLibro, Libro, Prestamo
-from .models import UserProfile
+from .models import Categoria, TipoLibro, Libro, Prestamo, UserProfile
 from django.contrib.auth.models import User
 
 @admin.register(Categoria)
@@ -15,9 +14,15 @@ class TipoLibroAdmin(admin.ModelAdmin):
 
 @admin.register(Libro)
 class LibroAdmin(admin.ModelAdmin):
-    list_display = ('id', 'titulo', 'autor', 'categoria', 'tipo', 'disponible')
+    list_display = ('id', 'titulo', 'autor', 'categoria', 'tipo', 'cantidad_disponible', 'cantidad_total')
     search_fields = ('titulo', 'autor')
-    list_filter = ('categoria', 'tipo', 'disponible')
+    list_filter = ('categoria', 'tipo')
+
+    def save_model(self, request, obj, form, change):
+        # Asegura que cantidad_disponible no sea mayor a cantidad_total
+        if obj.cantidad_disponible > obj.cantidad_total:
+            obj.cantidad_disponible = obj.cantidad_total
+        super().save_model(request, obj, form, change)
 
 @admin.register(Prestamo)
 class PrestamoAdmin(admin.ModelAdmin):

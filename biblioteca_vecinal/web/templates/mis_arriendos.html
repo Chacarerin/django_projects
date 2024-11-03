@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Mis Arriendos - Biblioteca Vecinal{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <table class="table table-striped table-bordered">
+        <thead class="table-success">
+            <tr>
+                <th>Libro</th>
+                <th>Autor</th>
+                <th>Categoría</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prestamo in prestamos %}
+                <tr>
+                    <td>{{ prestamo.libro.titulo }}</td>
+                    <td>{{ prestamo.libro.autor }}</td>
+                    <td>{{ prestamo.libro.categoria.nombre }}</td>
+                    <td>
+                        <a href="{% url 'retornar_libro' prestamo.libro.id %}" class="btn btn-success">Retornar</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No tienes arriendos activos.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

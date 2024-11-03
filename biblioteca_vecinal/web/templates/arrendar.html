@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Arrienda: {{ libro.titulo }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Arrienda: {{ libro.titulo }}</h3> <!-- Título actualizado con el nombre del libro -->
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="fecha_prestamo" class="form-label">Seleccione Fecha</label>
+            <input type="date" id="fecha_prestamo" name="fecha_prestamo" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Arrendar</button>
+    </form>
+</div>
+{% endblock %}
