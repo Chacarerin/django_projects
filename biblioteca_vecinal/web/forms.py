@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import UserProfile 
+from .models import UserProfile, Libro
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -20,3 +20,17 @@ class CustomUserCreationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class LibroForm(forms.ModelForm):
+    class Meta:
+        model = Libro
+        fields = ['titulo', 'autor', 'isbn', 'categoria', 'tipo', 'cantidad_disponible', 'cantidad_total']
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}),
+            'autor': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Autor(a)'}),
+            'isbn': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'ISBN'}),
+            'categoria': forms.Select(attrs={'class': 'form-select'}),
+            'tipo': forms.Select(attrs={'class': 'form-select'}),
+            'cantidad_disponible': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Cantidad Disponible'}),
+            'cantidad_total': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Cantidad Total'}),
+        }

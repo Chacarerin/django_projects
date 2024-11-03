@@ -2,11 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.views import View
 from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from datetime import timedelta, date
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, LibroForm
 from .models import Libro, Categoria, Prestamo
 from datetime import datetime 
 from django.utils import timezone
@@ -149,3 +149,19 @@ def retornar_libro(request, libro_id):
         return redirect('mis_arriendos')
 
     return render(request, 'retornar.html', {'libro': libro})
+
+def es_administrador(user):
+    return user.is_authenticated and user.userprofile.tipo == 'administrador'
+
+@user_passes_test(es_administrador)
+def agregar_libro(request):
+    if request.method == 'POST':
+        form = LibroForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'El libro ha sido agregado exitosamente.')
+            return redirect('index')  # Redirige a la página principal o donde prefieras
+    else:
+        form = LibroForm()
+    
+    return render(request, 'agregar_libro.html', {'form': form})

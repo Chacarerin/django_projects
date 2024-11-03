@@ -23,6 +23,7 @@ class TipoLibro(models.Model):
 class Libro(models.Model):
     titulo = models.CharField(max_length=100)
     autor = models.CharField(max_length=100)
+    isbn = models.CharField(max_length=13, blank=True, null=True)
     descripcion = models.TextField(blank=True, null=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name="libros")
     tipo = models.ForeignKey(TipoLibro, on_delete=models.CASCADE, related_name="libros")
