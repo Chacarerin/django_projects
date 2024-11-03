@@ -1,25 +1,42 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Mi Proyecto</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'index' %}">B. Vecinal</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {% if user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link" href="/">Inicio</a>
+              <a class="nav-link" href="#">Libros</a>
             </li>
-            {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register' %}">Registrarse</a>
-                </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Mis Arriendos</a>
+            </li>
+            {% if user.userprofile.tipo == 'administrador' %}
+              <li class="nav-item">
+                <a class="nav-link" href="#">Agregar Libro</a>
+              </li>
             {% endif %}
+          {% endif %}
         </ul>
+        <ul class="navbar-nav ms-auto">
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <span class="navbar-text text-white">Hola, {{ user.first_name }}</span>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-warning ms-2" href="{% url 'logout' %}">Salir</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">Registrarse</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
     </div>
-</nav>
+  </nav>

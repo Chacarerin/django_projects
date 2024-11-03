@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import timedelta
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=50)
@@ -63,3 +65,25 @@ class Prestamo(models.Model):
 
     def __str__(self):
         return f"Prestamo de {self.libro.titulo} por {self.usuario.username}"
+    
+
+class UserProfile(models.Model):
+    TIPOS_USUARIO = (
+        ('cliente', 'Cliente'),
+        ('administrador', 'Administrador')
+    )
+    tipo = models.CharField(max_length=50, choices=TIPOS_USUARIO, default='cliente')
+    user = models.OneToOneField(User, related_name='userprofile', on_delete=models.CASCADE)
+
+    def __str__(self):
+        id = self.user.id
+        nombre = self.user.first_name
+        apellido = self.user.last_name
+        usuario = self.user.username
+        tipo = self.get_tipo_display()
+        return f'{id} | {nombre} {apellido} | {usuario} | {tipo}'
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created and not hasattr(instance, 'userprofile'):
+        UserProfile.objects.create(user=instance, tipo='cliente')
