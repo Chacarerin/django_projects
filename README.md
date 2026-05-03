@@ -1,60 +1,26 @@
-# 🚀 Portafolio de Proyectos en Django
+# Portafolio de Aplicaciones en Django
 
 ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
-![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 
-¡Bienvenido! Este repositorio agrupa varios proyectos web desarrollados con **Django**, diseñados para resolver distintos casos de uso utilizando las capacidades Full Stack del framework (ORM, sistema de plantillas, autenticación y más).
+Este repositorio contiene un compendio de proyectos web funcionales desarrollados íntegramente con el framework Django. La finalidad de estos proyectos es demostrar habilidades en la construcción de sistemas Full Stack, abarcando desde el modelado de la base de datos y validación de reglas de negocio, hasta el renderizado de la interfaz y construcción de APIs RESTful.
 
-## 🏆 Proyectos Destacados
+## Catálogo de Proyectos
 
-### 1. 📚 Biblioteca Vecinal (`biblioteca_vecinal`)
-Una aplicación para la gestión comunitaria de libros.
-- Sistema de catálogo de libros.
-- Registro de préstamos y devoluciones.
-- Interfaz amigable para los vecinos y administradores.
+Cada subcarpeta contiene una aplicación Django independiente. En el interior de cada una encontrarás documentación específica sobre su propósito y dependencias.
 
-### 2. 📝 Django Blog (`django_blog`)
-Un sistema de blog completo y funcional.
-- Creación, edición y eliminación de artículos (CRUD completo).
-- Sistema de categorías y etiquetas.
-- Comentarios y autenticación de autores.
+* **`biblioteca_vecinal`**: Sistema de gestión comunitaria para préstamos y catálogos de libros.
+* **`django_blog`**: Plataforma de publicación de artículos con gestión de usuarios, categorías y comentarios.
+* **`django_crud`**: Aplicación fundacional orientada a la dominación de operaciones Crear, Leer, Actualizar y Eliminar mediante ModelForms.
+* **`django_portfolio`**: Sistema para la exhibición de portafolios profesionales, administrable mediante el backend de Django.
+* **`fruteria` / `fruteria_vecinal`**: Aplicaciones para la gestión de inventario y ventas en locales comerciales de tamaño reducido.
+* **`moviesapi`**: Servicio web que expone una API REST para consultar una base de datos de películas (utilizando Django REST Framework).
+* **`ski_rental`**: Sistema de administración para el arriendo de equipos de esquí, con control de stock y disponibilidad.
+* **`practica_orm` / `practica_final_orm_django`**: Ejercicios enfocados exclusivamente en la manipulación avanzada de bases de datos relacionales sin usar sentencias SQL crudas.
 
-### 3. ⚙️ Django CRUD Básicos (`django_crud`)
-Proyecto enfocado en dominar las operaciones CRUD de forma limpia y segura.
-- Formularios interactivos (ModelForms).
-- Validaciones personalizadas en el backend.
+## Consideraciones Generales
 
-### 4. 💼 Django Portfolio (`django_portfolio`)
-Una aplicación diseñada para mostrar proyectos profesionales (como este mismo repositorio pero en formato web).
-- Panel de administración para cargar nuevos trabajos.
-- Frontend estilizado para una presentación atractiva.
+Todos los proyectos están diseñados para ejecutarse en entornos virtuales de Python. Las configuraciones por defecto apuntan a bases de datos SQLite locales para facilitar su prueba, aunque la lógica del ORM permite la migración inmediata a motores como PostgreSQL.
 
----
-
-## 🛠️ Instalación y Uso
-
-Para probar cualquiera de estos proyectos en tu máquina local:
-
-1. Clona este repositorio:
-   ```bash
-   git clone https://github.com/Chacarerin/django_projects.git
-   ```
-2. Entra en la carpeta del proyecto que te interese (ej. `cd biblioteca_vecinal`).
-3. Crea y activa tu entorno virtual (`python -m venv venv`).
-4. Instala Django y las dependencias (si existe un `requirements.txt`).
-5. Corre las migraciones para inicializar la base de datos:
-   ```bash
-   python manage.py migrate
-   ```
-6. (Opcional) Crea un superusuario para acceder al panel de administración:
-   ```bash
-   python manage.py createsuperuser
-   ```
-7. Inicia el servidor local:
-   ```bash
-   python manage.py runserver
-   ```
 ---
 *Desarrollado por Rubén Schnettler.*
