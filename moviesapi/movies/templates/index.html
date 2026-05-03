@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container my-5">
+        <h2 class="mb-4">Descubre una película según tu estado de ánimo</h2>
+
+        <!-- Formulario para ingresar el concepto o estado de ánimo -->
+        <form method="POST" class="form-inline mb-4">
+            {% csrf_token %}
+            <!-- Campo opcional, solo requerido si se busca por estado de ánimo -->
+            <div class="form-group mr-3">
+                {{ form.as_p }}
+            </div>
+            <div class="d-flex">
+                <!-- Botón de búsqueda normal -->
+                <button type="submit" class="btn btn-primary mr-2" name="search_movies">Buscar películas</button>
+                <!-- Botón "Nueva búsqueda" -->
+                <button type="submit" class="btn btn-secondary mr-2" name="search_movies">Nueva búsqueda</button>
+                <!-- Botón "Sorpréndeme", no requiere el campo de texto -->
+                <button type="submit" class="btn btn-success" name="surprise_me">Sorpréndeme</button>
+            </div>
+        </form>
+
+        <!-- Si hay recomendaciones basadas en la descripción, mostrarlas -->
+        {% if recommendations %}
+            <h3 class="mb-4">Películas recomendadas</h3>
+            <div class="row">
+                {% for movie in recommendations %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img class="card-img-top" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ movie.title }}</h5>
+                                <p class="card-text"><strong>Descripción:</strong> {{ movie.overview }}</p>
+                                <p><strong>Puntaje:</strong> {{ movie.vote_average }}/10</p>
+                                <p><strong>Fecha de estreno:</strong> {{ movie.release_date }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Si se hace clic en "Sorpréndeme", mostrar las películas premiadas -->
+        {% if random_movies %}
+            <h3 class="mb-4">Películas premiadas</h3>
+            <div class="row">
+                {% for movie in random_movies %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img class="card-img-top" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ movie.title }}</h5>
+                                <p class="card-text"><strong>Descripción:</strong> {{ movie.overview }}</p>
+                                <p><strong>Puntaje:</strong> {{ movie.vote_average }}/10</p>
+                                <p><strong>Fecha de estreno:</strong> {{ movie.release_date }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

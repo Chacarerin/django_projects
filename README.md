@@ -57,4 +57,4 @@ Para probar cualquiera de estos proyectos en tu máquina local:
    python manage.py runserver
    ```
 ---
-*Desarrollado con ❤️ por Rubén Schnettler*
+*Desarrollado por Rubén Schnettler.*

@@ -1,0 +1,530 @@
+/* Variables de colores para tema claro */
+.light-mode {
+  --bg-color: #f0f4f5; /* Fondo de la página */
+  --text-color: #1a202c; /* Texto general */
+  --navbar-bg: #e5eaeb; /* Fondo del navbar */
+  --navbar-text: #1a202c; /* Texto del navbar */
+  --section-bg-1: #f0f4f5; /* Fondo de la sección 1 */
+  --section-bg-2: #ffffff; /* Fondo de la sección 2 */
+  --section-text-1: #1f2937; /* Texto principal en secciones */
+  --section-text-2: rgb(74, 85, 104); /* Texto secundario */
+  --card-bg: #ffffff; /* Fondo de las tarjetas */
+  --card-text: #1f2937; /* Texto principal en tarjetas */
+  --primary-button: #007bff; /* Color de los botones */
+  --hover-button: #0056b3; /* Color del hover en los botones */
+}
+
+/* Variables de colores para tema oscuro */
+.dark-mode {
+  --bg-color: #1c1f2a; /* Fondo de la página */
+  --text-color: #e0e0e0; /* Texto general */
+  --navbar-bg: #2a2d3b; /* Fondo del navbar */
+  --navbar-text: #ffffff; /* Texto del navbar */
+  --section-bg-1: #212532; /* Fondo de la sección 1 */
+  --section-bg-2: #2d3141; /* Fondo de la sección 2 */
+  --section-text-1: #e0e6ed; /* Texto principal en secciones */
+  --section-text-2: #c2c6d1; /* Texto secundario */
+  --card-bg: #2d3141; /* Fondo de las tarjetas */
+  --card-text: #e0e6ed; /* Texto principal en tarjetas */
+  --icon-color: #6c757d; /* Color de los íconos */
+  --primary-button: #3a506b; /* Color de los botones */
+  --hover-button: #2b3e58; /* Color del hover en los botones */
+}
+
+/* Aplicación de las variables en el body */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* Estilos para las secciones */
+.section-1 {
+  background-color: var(--section-bg-1);
+  color: var(--section-text-1);
+  padding: 60px;
+}
+
+.section-2 {
+  background-color: var(--section-bg-2);
+  color: var(--section-text-2);
+  padding: 60px;
+}
+
+/* Estilos para visión y misión */
+.text-visionymision {
+  background-color: rgba(74, 85, 104, 0.6); /* Fondo negro semi-transparente */
+  padding: 20px; /* Espacio interior */
+  border-radius: 10px; /* Bordes redondeados */
+  color: #fff; /* Texto blanco para mejor contraste */
+}
+
+.text-visionymision p.lead {
+  font-size: 1rem; /* Tamaño de fuente más pequeño */
+  line-height: 1.5; /* Altura de línea ajustada para mejor legibilidad */
+}
+
+@media (max-width: 768px) {
+  .text-visionymision h2 {
+      font-size: 1.5rem; /* Reducción del tamaño del título en pantallas pequeñas */
+  }
+  
+  .text-visionymision p.lead {
+      font-size: 0.9rem; /* Tamaño de texto más pequeño en pantallas pequeñas */
+  }
+}
+
+/* Estilos para las tarjetas */
+.card {
+  background-color: var(--card-bg);
+  color: var(--card-text);
+  border: none; /* Elimina los bordes por defecto */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Sombras suaves para las tarjetas */
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%; /* Ajusta el ancho al 100% del contenedor */
+  height: 100px; /* Puedes ajustar la altura según el diseño deseado */
+  object-fit: cover; /* Esto ajusta la imagen para que se recorte y llene el contenedor */
+  object-position: center; /* Centra la imagen dentro del contenedor */
+  transition: transform 0.3s ease-in-out;  /* Añade una transición suave */
+  
+}
+
+.icon-text-container {
+  display: inline-flex;
+  align-items: center; /* Alinea verticalmente el ícono y el texto */
+  gap: 8px; /* Espacio entre el ícono y el texto */
+}
+
+.icon-text-container i {
+  font-size: 1.5rem; /* Tamaño del ícono */
+  color: var(--card-text);
+}
+
+.icon-text-container p {
+  font-size: inherit; /* Hereda el tamaño de fuente del contenedor padre */
+  margin: 0; /* Elimina márgenes extras */
+}
+
+.card-subtitle, .icon-text-container p {
+  font-size: 1rem; /* Tamaño del texto igual para universidad y año/ciudad */
+  color: var(--section-text-2); /* Color similar */
+  margin: 0;
+}
+
+.card-title {
+  color: var(--card-text);
+}
+
+.card-subtitle {
+  color: var(--section-text-2); /* Usa el color de los textos secundarios */
+}
+
+
+.card-image:hover {
+  transform: scale(1.2); /* Aplica un zoom del 20% al hacer hover */
+}
+
+/* Estilos para los íconos */
+.bx {
+  color: var(--icon-color);
+  margin-bottom: 15px;
+  display: block;
+}
+
+/* Estilos para los botones */
+.button-primary {
+  background-color: var(--primary-button);
+  color: white;
+}
+
+.button-primary:hover {
+  background-color: var(--hover-button);
+}
+
+/* Estilo del navbar */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030; /* Asegura que el navbar quede sobre otros elementos */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Añade una pequeña sombra para que sea visible al hacer scroll */
+  background-color: var(--navbar-bg);
+  color: var(--navbar-text);
+}
+
+.navbar .nav-link {
+  color: var(--navbar-text) !important;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+.navbar .nav-link:hover {
+  color: var(--hover-button) !important; /* Color de los enlaces al pasar el mouse */
+}
+
+.navbar-brand {
+  color: var(--navbar-text) !important; /* Asegura que el color del texto del nombre cambie */
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+.navbar-brand:hover {
+  color: var(--hover-button) !important; /* Color del nombre del sitio al pasar el mouse */
+}
+
+/* Estilo del footer */
+footer {
+  background-color: var(--section-bg-2); /* Fondo del footer usando la variable del tema */
+  color: var(--section-text-2); /* Color del texto del footer usando la variable del tema */
+  padding: 20px;
+  text-align: center;
+}
+
+footer a {
+  color: var(--section-text-1); /* Color de los enlaces en el footer */
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--hover-button); /* Color al pasar el mouse por los enlaces */
+}
+
+footer p {
+  margin: 0;
+}
+
+/* Botón de cambio de tema */
+.switch {
+  font-size: 14px;
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+  margin: auto 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #73C0FC;
+  transition: .4s;
+  border-radius: 20px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
+  left: 2px;
+  bottom: 2px;
+  background-color: #e8e8e8;
+  transition: .4s;
+}
+
+.sun svg {
+  position: absolute;
+  top: 4px;
+  left: 28px;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+}
+
+.moon svg {
+  fill: #73C0FC;
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+}
+
+.input:checked + .slider {
+  background-color: #183153;
+}
+
+.input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+/* Botón saber más */ 
+button {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  text-decoration: none;
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+ }
+ 
+ button.learn-more {
+  width: 12rem;
+  height: auto;
+ }
+ 
+ button.learn-more .circle {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: relative;
+  display: block;
+  margin: 0;
+  width: 3rem;
+  height: 3rem;
+  background: #282936;
+  border-radius: 1.625rem;
+ }
+ 
+ button.learn-more .circle .icon {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background: #fff;
+ }
+ 
+ button.learn-more .circle .icon.arrow {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  left: 0.625rem;
+  width: 1.125rem;
+  height: 0.125rem;
+  background: none;
+ }
+ 
+ button.learn-more .circle .icon.arrow::before {
+  position: absolute;
+  content: "";
+  top: -0.29rem;
+  right: 0.0625rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-top: 0.125rem solid #fff;
+  border-right: 0.125rem solid #fff;
+  transform: rotate(45deg);
+ }
+ 
+ button.learn-more .button-text {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.75rem 0;
+  margin: 0 0 0 1.85rem;
+  color: #282936;
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+  text-transform: uppercase;
+ }
+
+ .dark-mode button.learn-more .button-text {
+  color: #f3f4f6; /* Texto claro para el modo oscuro */
+ }
+
+ button:hover .circle {
+  width: 100%;
+ }
+ 
+ button:hover .circle .icon.arrow {
+  background: #fff;
+  transform: translate(1rem, 0);
+ }
+ 
+ button:hover .button-text {
+  color: #fff;
+ }
+
+/* Seccion sobre mi */
+
+ .section-about {
+  background-image: url('/static/img/yo.jpg'); /* Imagen de fondo específica para esta sección */
+  background-size: contain; /* La imagen cubre toda la sección */
+  background-position: left center; /* Coloca tu cara más hacia la izquierda */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  height: 70vh; /* Hace que la sección ocupe el 100% de la altura de la pantalla */
+  color: var(--text-color); /* Ajusta el color del texto para un buen contraste con la imagen */
+}
+
+.section-about h2,
+.section-about p {
+  text-align: right; /* Alinea el texto a la derecha */
+}
+
+.section-banner {
+  background-image: url('/static/img/fondo.png'); /* Imagen de fondo específica para esta sección */
+  background-size: fill; /* La imagen cubre toda la sección */
+  background-position: 0; /* Coloca tu cara más hacia la izquierda */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  height: 100vh; /* Hace que la sección ocupe el 100% de la altura de la pantalla */
+  color: var(--text-color); /* Ajusta el color del texto para un buen contraste con la imagen */
+}
+
+
+
+/* Skills bar Landing */
+
+.container-sk {
+  position: relative;
+  max-width: 500px;
+  width: 100%;
+  background: var(--card-bg);
+  margin: 0 15px;
+  padding: 10px 20px;
+  border-radius: 7px;
+}
+
+.container-sk .skill-box {
+  width: 100%;
+  margin: 25px 0;
+}
+
+.skill-box .title {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--card-text);
+}
+
+.skill-box .skill-bar {
+  height: 8px;
+  width: 100%;
+  border-radius: 6px;
+  margin-top: 6px;
+  background: rgba(0,0,0,0.1);
+}
+
+.skill-bar .skill-per {
+  position: relative;
+  display: block;
+  height: 100%;
+  width: 90%;
+  border-radius: 6px;
+  background: var(--card-text);
+  animation: progress 0.4s ease-in-out forwards;
+  opacity: 0;
+}
+
+.skill-per.lider {
+   /*progreso de las diferentes lenguajes*/
+  width: 80%;
+  animation-delay: 0.1s;
+}
+
+.skill-per.proye {
+         /*progreso de las diferentes lenguajes*/
+  width: 70%;
+  animation-delay: 0.1s;
+}
+
+.skill-per.comu {
+  /*progreso de las diferentes lenguajes*/
+ width: 90%;
+ animation-delay: 0.2s;
+}
+
+.skill-per.cambio {
+        /*progreso de las diferentes lenguajes*/
+ width: 100%;
+ animation-delay: 0.3s;
+}
+
+.skill-per.trans {
+      /*progreso de las diferentes lenguajes*/
+  width: 80%;
+  animation-delay: 0.2s;
+}
+
+.skill-per.adap {
+      /*progreso de las diferentes lenguajes*/
+  width: 100%;
+  animation-delay: 0.3s;
+}
+
+.skill-per.fulls {
+  /*progreso de las diferentes lenguajes*/
+width: 70%;
+animation-delay: 0.2s;
+}
+
+.skill-per.resol {
+  /*progreso de las diferentes lenguajes*/
+width: 95%;
+animation-delay: 0.3s;
+}
+
+@keyframes progress {
+  0% {
+    width: 0;
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.skill-per .tooltip {
+  position: absolute;
+  right: -14px;
+  top: -28px;
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--card-bg);
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--card-text);
+  z-index: 2;
+  opacity: 1;
+}
+
+.tooltip::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  height: 10px;
+  width: 10px;
+  z-index: -1;
+  background-color: var(--card-text);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+@media (max-width: 768px) {
+  .col-md-5 {
+      margin-bottom: 20px; /* Añadimos margen inferior en pantallas pequeñas */
+  }
+}
+
+/* Página antecedentes académicos */
+
+.logros-text {
+  font-size: 0.9rem; /* Tamaño de texto más pequeño */
+  line-height: 1.4; /* Espaciado entre líneas */
+  color: var(--section-text-1); /* Asegura que el color sea adecuado para el tema */
+}
+
+@media (max-width: 768px) {
+  .logros-text {
+      font-size: 0.8rem; /* Tamaño de texto aún más pequeño en pantallas pequeñas */
+  }
+}

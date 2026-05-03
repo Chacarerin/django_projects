@@ -1,0 +1,472 @@
+-- PARTE 2 --
+
+Creación de un CRUD tomando como referencia una lista de tareas.
+
+Para facilitar la personalización, modificaremos el modelo de autentificación por uno personalizado.
+
+0) Crear sistema de registro personalizado:
+
+  A) En forms.py añadimos para generar un nuevo registro personalizado:
+
+from django.contrib.auth.models import User
+
+class RegistroForm(forms.ModelForm):
+    password1 = forms.CharField(
+        label="Contraseña",
+        widget=forms.PasswordInput,
+        required=True
+    )
+    password2 = forms.CharField(
+        label="Confirmar Contraseña",
+        widget=forms.PasswordInput,
+        required=True
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'email']  # Campos que queremos en el formulario de registro
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
+
+        if password1 and password2 and password1 != password2:
+            self.add_error('password2', "Las contraseñas no coinciden.")
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
+
+    B) añadimos al views.py:
+
+from django.contrib.auth.decorators import login_required, permission_required
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistroForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+
+            login(request, user)  # Autenticar al usuario después del registro
+            return redirect('index')
+    else:
+        form = RegistroForm()
+    return render(request, 'register.html', {'form': form})
+
+  C) Añadimos al settings.py:
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login'
+
+1) Crear el modelo tipo CRUD. En este caso será una lista de tareas. En models.py:
+
+from django.db import models
+from django.contrib.auth.models import User
+
+class Tarea(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE) 
+    titulo = models.CharField(max_length=255)
+    descripcion = models.TextField(blank=True, null=True)
+    completado = models.BooleanField(default=False)
+    creado = models.DateTimeField(auto_now_add=True)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tareas')
+
+    def __str__(self):
+        return self.titulo
+
+2) Crear el formulario en forms.py:
+
+from django import forms
+from .models import Tarea
+
+class TareaForm(forms.ModelForm):
+    class Meta:
+        model = Tarea
+        fields = ['titulo', 'descripcion', 'completado'] #no usamos todos los campos para no repetir ingresar usuario.
+
+3) Crearemos un permiso especial, el de 'editor_access', y se asignará a todo nuevo usuario registrado:
+
+  A) Registramos en admin.py nuestro modelo:
+
+from django.contrib import admin
+from .models import Tarea
+
+@admin.register(Tarea)
+class TareaAdmin(admin.ModelAdmin):
+    list_display = ['titulo', 'usuario', 'completado', 'creado']
+  
+  B) En models.py creamos el permiso, al final de classTarea:
+
+class Meta:
+        # Agregar permisos personalizados en Meta
+        permissions = [
+            ('editor_access', 'Permiso para agregar, editar y eliminar tareas'),
+        ]
+
+  C) En views.py generamos el permiso por defecto a todo nuevo usuario:
+
+from django.contrib.auth.models import Permission
+
+# Modificamos función register:
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistroForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+
+            # Asignar el permiso "editor_access" directamente al usuario
+            permiso_editor = Permission.objects.get(codename='editor_access')
+            user.user_permissions.add(permiso_editor)
+
+            login(request, user)  # Autenticar al usuario después del registro
+            return redirect('index')
+    else:
+        form = RegistroForm()
+    return render(request, 'register.html', {'form': form})
+
+  D) Seguimos en views.py, ahora restricción de visualización:
+
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required, permission_required
+from .models import Tarea
+from .forms import TareaForm
+from django.http import HttpResponseForbidden
+
+# Vista para listar tareas
+def lista_tareas(request):
+    tareas = Tarea.objects.all()
+    visitas = request.session.get('visitas', 0)  # Obtener el número de visitas de la sesión
+    request.session['visitas'] = visitas + 1  # Incrementar el contador de visitas
+    return render(request, 'lista_tareas.html', {'tareas': tareas, 'visitas': visitas})
+
+# Vista para agregar tarea (solo permitido para "editor")
+@login_required
+@permission_required('todolist.editor_access', raise_exception=True)
+def agregar_tarea(request):
+    if request.method == 'POST':
+        form = TareaForm(request.POST)
+        if form.is_valid():
+            tarea = form.save(commit=False)
+            tarea.usuario = request.user  # Asigna la tarea al usuario que está autenticado
+            tarea.save()
+            return redirect('lista_tareas')
+    else:
+        form = TareaForm()
+    return render(request, 'agregar_tarea.html', {'form': form})
+
+# Vista para editar tarea (solo permitido para "editor" y el propietario de la tarea)
+@login_required
+@permission_required('todolist.editor_access', raise_exception=True)
+def editar_tarea(request, pk):
+    tarea = get_object_or_404(Tarea, pk=pk)
+
+    # Verificar que la tarea pertenezca al usuario que la intenta editar
+    if tarea.usuario != request.user:
+        return HttpResponseForbidden("No tienes permiso para editar esta tarea.")
+
+    if request.method == 'POST':
+        form = TareaForm(request.POST, instance=tarea)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_tareas')
+    else:
+        form = TareaForm(instance=tarea)
+    
+    return render(request, 'editar_tarea.html', {'form': form, 'tarea': tarea})
+
+# Vista para eliminar tarea (solo permitido para "editor" y el propietario de la tarea)
+@login_required
+@permission_required('todolist.editor_access', raise_exception=True)
+def eliminar_tarea(request, pk):
+    tarea = get_object_or_404(Tarea, pk=pk)
+
+    # Verificar que la tarea pertenezca al usuario que la intenta eliminar
+    if tarea.usuario != request.user:
+        return HttpResponseForbidden("No tienes permiso para eliminar esta tarea.")
+
+    if request.method == 'POST':
+        tarea.delete()
+        return redirect('lista_tareas')
+
+    return render(request, 'eliminar_tarea.html', {'tarea': tarea})
+
+4) Agregaremos un contador de visitas en la página del CRUD:
+
+  A) Creamos el modelo en models.py:
+
+class Visitas(models.Model):
+    contador = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"Visitas: {self.contador}"
+  
+  B) Generamos ahora la vista de la tabla CRUD con el contador en views.py:
+
+def lista_tareas(request):
+    tareas = Tarea.objects.all()  # Obtener todas las tareas de la base de datos
+    visitas_obj, created = Visitas.objects.get_or_create(id=1)
+        # Incrementar el contador de visitas
+    visitas_obj.contador += 1
+    visitas_obj.save()
+    
+    # Comprobar si el usuario tiene el permiso 'editor_access'
+    user_is_editor = request.user.has_perm('todolist.editor_access')
+
+    return render(request, 'lista_tareas.html', {
+        'tareas': tareas,
+        'visitas': visitas_obj.contador,
+        'user_is_editor': user_is_editor  # Pasar esta variable a la plantilla
+    })
+
+  C) Realizamos migraciones:
+
+  python manage.py makemigrations
+  python manage.py migrate
+
+5) Generamos los nuevos html:
+
+  A) lista_tareas.html
+
+{% extends 'base.html' %}
+
+{% block title %}Lista de Tareas{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Lista de Tareas</h2>
+
+    <!-- Mostrar el botón "Agregar Tarea" solo si el usuario tiene el permiso "editor_access" -->
+    {% if user_is_editor %}
+        <a href="{% url 'agregar_tarea' %}" class="btn btn-primary mb-3">Agregar Tarea</a>
+    {% endif %}
+
+    <!-- Tabla con la lista de tareas -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Fecha ingreso</th>
+                <th>Creado por</th> <!-- Nueva columna para el usuario -->
+                {% if user_is_editor %}
+                    <th>Acciones</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for tarea in tareas %}
+                <tr>
+                    <td>{{ tarea.titulo }}</td>
+                    <td>{{ tarea.descripcion }}</td>
+                    <td>{% if tarea.completado %}Completado{% else %}No completado{% endif %}</td>
+                    <td>{{ tarea.creado }}</td>
+                    <td>{{ tarea.usuario.username }}</td> <!-- Mostrar el nombre de usuario -->
+                    {% if user_is_editor %}
+                        <td>
+                            <a href="{% url 'editar_tarea' tarea.pk %}" class="btn btn-warning btn-sm">Editar</a>
+                            <a href="{% url 'eliminar_tarea' tarea.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">No hay tareas disponibles.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p>Número de visitas: {{ visitas }}</p>
+</div>
+{% endblock %}
+
+    B) Actualizamos el navbar.html:
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'index' %}">Proyecto</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'lista_tareas' %}">Tareas</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-link nav-link" style="color: inherit; text-decoration: none;">Cerrar sesión</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Registrarse</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+  C) crear agregar_tarea.html:
+
+{% extends 'base.html' %}
+
+{% block title %}Agregar Tarea{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Agregar Nueva Tarea</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Agregar Tarea</button>
+    </form>
+</div>
+{% endblock %}
+
+  D) Agregar editar_tarea.html:
+
+{% extends 'base.html' %}
+
+{% block title %}Editar Tarea{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Editar Tarea</h2>
+
+    <!-- Formulario para editar tarea -->
+    <form method="post" action="{% url 'editar_tarea' tarea.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    </form>
+
+    <!-- Botón para volver a la lista de tareas -->
+    <a href="{% url 'lista_tareas' %}" class="btn btn-secondary mt-3">Volver a la lista de tareas</a>
+</div>
+{% endblock %}
+
+  E) crear eliminar_tarea.html
+
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Tarea{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>¿Estás seguro de que deseas eliminar esta tarea?</h2>
+    <p><strong>Título:</strong> {{ tarea.titulo }}</p>
+    <p><strong>Descripción:</strong> {{ tarea.descripcion }}</p>
+
+    <!-- Formulario para confirmar la eliminación -->
+    <form method="post" action="{% url 'eliminar_tarea' tarea.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Eliminar Tarea</button>
+    </form>
+
+    <!-- Botón para cancelar -->
+    <a href="{% url 'lista_tareas' %}" class="btn btn-secondary mt-3">Cancelar</a>
+</div>
+{% endblock %}
+
+  F) Actualizamos login.html:
+
+<!-- templates/login.html -->
+{% extends 'base.html' %}
+
+{% block title %}Iniciar sesión{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2>Iniciar sesión</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+  G) Actualizamos logout.html:
+
+<!-- templates/logout.html -->
+{% extends 'base.html' %}
+
+{% block title %}Cierre de sesión{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2>Has cerrado sesión correctamente</h2>
+        <a href="{% url 'login' %}" class="btn btn-primary">Iniciar sesión nuevamente</a>
+    </div>
+</div>
+{% endblock %}
+
+  H) Actualizamos register.html:
+
+<!-- templates/register.html -->
+{% extends 'base.html' %}
+
+{% block title %}Registrarse{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2>Registrarse</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Registrarse</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+  6) Finalmente, consolidamos urls.py:
+
+from django.urls import path
+from django.contrib.auth import views as auth_views
+from . import views 
+
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+    path('register/', views.register, name='register'), 
+    path('agregar/', views.agregar_tarea, name='agregar_tarea'),
+    path('editar/<int:pk>/', views.editar_tarea, name='editar_tarea'),
+    path('eliminar/<int:pk>/', views.eliminar_tarea, name='eliminar_tarea'),
+    path('register/', views.register, name='register'),
+    path('tareas/', views.lista_tareas, name='lista_tareas'),
+]
+
+7) Ahora cruzar los dedos y levantar servidor:
+
+  python manage.py runserver
+
+Con esto complementariamos el proyecto con:
+- uso de modelos
+- creación de un CRUD
+- sistema autenticación personalizado
+- sistema de permiso personalizado para los usuarios y vistas protegidas
+- contador de visitas

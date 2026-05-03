@@ -1,0 +1,431 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Landing - Rubén Schnettler{% endblock %}
+
+{% block content %}
+
+<!-- Banner -->
+<section class="section-banner hero-banner section-1 text-center d-flex align-items-center justify-content-center">
+    <div class="container">
+        <h1 class="display-4" data-aos="fade-up">Rubén Schnettler</h1>
+        <p class="lead" data-aos="fade-up" data-aos-delay="200">Papá | Ingeniero | Profesor | Autodidacta</p>
+    </div>
+</section>
+
+<!-- Descripción Personal -->
+<section class="section-2 py-5 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2" data-aos="fade-up">
+                <!-- Primer título y texto -->
+                <h2 class="mb-4">Sobre mí</h2>
+                <p class="lead pb-5">
+                    Soy Rubén, orgulloso papá de Antonia y un apasionado por la gestión organizacional, la educación y la tecnología. Mi experiencia abarca desde la ingeniería hasta la investigación, pasando por proyectos educativos que me han permitido crecer tanto a nivel personal como profesional. Estoy siempre en busca de nuevos desafíos, comprometido con el aprendizaje continuo y el uso de las últimas herramientas y tendencias, con un enfoque especial en la inteligencia artificial. Creo firmemente en el poder de la colaboración y en el potencial transformador de la tecnología para generar un impacto positivo en las organizaciones.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Vision y Mision -->
+<section class="section-about section-1 py-5 text-right">
+    <div class="container">
+        <div class="row d-flex align-items-center">
+            <div class="col-md-6 offset-md-6 text-visionymision" data-aos="fade-right">
+                <!-- Primer título y texto -->
+                <h2 class="mb-4">Mi visión</h2>
+                <p class="lead pb-5">
+                    Desarrollarme en gestión y tecnología, aportando soluciones innovadoras en organizaciones, consultoría y educación. Mi meta es impulsar proyectos que transformen empresas y personas, utilizando la tecnología y nuevas tendencias de la industria.
+                </p>
+
+                <!-- Segundo título y texto (debajo del primero) -->
+                <h2 class="mb-4">Mi misión</h2>
+                <p class="lead">
+                    Contribuir al crecimiento de personas y organizaciones a través de la gestión, asesoría y docencia, manteniéndome al día con las herramientas tecnológicas que transforman el entorno laboral. Busco aprender y ser parte de estos cambios, colaborando con equipos diversos y logrando un equilibrio con mi vida personal.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- Formación Académica -->
+<section class="section-2 py-5">
+    <div class="container">
+        <h2 class="text-center mb-4" data-aos="fade-up">Formación Académica</h2>
+        <div class="row">
+            <!-- Tarjetas de formación académica (5 tarjetas) -->
+            <!-- Tarjeta 1 - MBA -->
+            <div class="col-md-4 mb-4" data-aos="flip-right">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <img src="{% static 'img/usmvitacura.jpeg' %}" class="img-fluid mb-3 rounded card-image" alt="MBA Imagen">
+                        <div class="d-flex align-items-center mb-2 icon-text-container">
+                            <i class='bx bxs-graduation'></i>
+                            <p>2020, Santiago.</p>
+                        </div>
+                        <h5 class="card-title">MBA Magíster en Gestión Empresarial</h5>
+                        <p class="card-subtitle">Universidad Técnica Federico Santa María</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 2 - Ingeniería Civil Industrial -->
+            <div class="col-md-4 mb-4" data-aos="flip-right" data-aos-delay="200">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <img src="{% static 'img/usm.jpeg' %}" class="img-fluid mb-3 rounded card-image" alt="Ing Civil Industrial Imagen">
+                        <div class="d-flex align-items-center mb-2 icon-text-container">
+                            <i class='bx bxs-graduation'></i>
+                            <p>2020, Santiago.</p>
+                        </div>
+                        <h5 class="card-title">Ingeniería Civil Industrial</h5>
+                        <p class="card-subtitle">Universidad Técnica Federico Santa María</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 3 - Ingeniería en Acuicultura -->
+            <div class="col-md-4 mb-4" data-aos="flip-right" data-aos-delay="400">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <img src="{% static 'img/ulagos.jpeg' %}" class="img-fluid mb-3 rounded card-image" alt="Ing Acuicultura Imagen">
+                        <div class="d-flex align-items-center mb-2 icon-text-container">
+                            <i class='bx bxs-graduation'></i>
+                            <p>2020, Santiago.</p>
+                        </div>
+                        <h5 class="card-title">Ingeniería en Acuicultura</h5>
+                        <p class="card-subtitle">Universidad de Los Lagos</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 4 - Desarrollador Full Stack Python -->
+            <div class="col-md-4 mb-4" data-aos="flip-left" data-aos-delay="600">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <img src="{% static 'img/bootcamp.webp' %}" class="img-fluid mb-3 rounded card-image" alt="Full Stack Python Imagen">
+                        <div class="d-flex align-items-center mb-2 icon-text-container">
+                            <i class='bx bxs-graduation'></i>
+                            <p>2020, Santiago.</p>
+                        </div>
+                        <h5 class="card-title">Desarrollador Full Stack Python</h5>
+                        <p class="card-subtitle">Certificación</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 5 - Profesional Enseña Chile -->
+            <div class="col-md-4 mb-4" data-aos="flip-left" data-aos-delay="800">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <img src="{% static 'img/ech.jpeg' %}" class="img-fluid mb-3 rounded card-image" alt="Enseña Chile Imagen">
+                        <div class="d-flex align-items-center mb-2 icon-text-container">
+                            <i class='bx bxs-graduation'></i>
+                            <p>2020, Santiago.</p>
+                        </div>
+                        <h5 class="card-title">Profesional Enseña Chile</h5>
+                        <p class="card-subtitle">Enseña Chile</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón Saber Más en lugar de la sexta tarjeta -->
+            <div class="col-md-4 mb-4 d-flex align-items-center justify-content-center" data-aos="zoom-in" data-aos-delay="1000">
+                <button class="learn-more">
+                    <span class="circle" aria-hidden="true">
+                        <span class="icon arrow"></span>
+                    </span>
+                    <span class="button-text">Saber más</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sección de Intereses -->
+<section class="section-1 py-5">
+    <div class="container">
+        <h2 class="text-center mb-4" data-aos="fade-up">Intereses</h2>
+
+        <!-- Primera fila: 3 columnas centradas -->
+        <div class="row justify-content-center text-center">
+            <div class="col-md-4" data-aos="fade-up">
+                <h4>
+                    <i class='bx bx-tachometer'></i> Gestión
+                </h4>
+                <p>
+                    Me motiva liderar equipos multidisciplinarios y mejorar procesos. Enfocado en resultados, disfruto hacer que las cosas sucedan, adaptándome a los cambios y asegurando una colaboración eficiente.
+                </p>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <h4>
+                    <i class='bx bx-book'></i> Educación
+                </h4>
+                <p>
+                    Tengo un interés especial en compartir conocimiento y participar en el ámbito educativo. Me atrae la docencia y la relatoría en temas como gestión y tecnología, contribuyendo al desarrollo de nuevos talentos.
+                </p>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+                <h4>
+                    <i class='bx bx-laptop'></i> Tecnología
+                </h4>
+                <p>
+                    La tecnología me apasiona, especialmente la inteligencia artificial y el desarrollo web. Con experiencia en Python y Django, busco siempre nuevas formas de aplicar tecnología en soluciones innovadoras.
+                </p>
+            </div>
+        </div>
+
+        <!-- Segunda fila: 2 columnas centradas -->
+        <div class="row justify-content-center text-center mt-4">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+                <h4>
+                    <i class='bx bx-heart'></i> Vida personal
+                </h4>
+                <p>
+                    La paternidad ocupa un lugar central en mi vida. Mi trabajo más importante y el que más habilidades me ha enseñado. Además, disfruto del deporte al aire libre, la música, los videojuegos y todo lo relacionado con tecnología, lo que complementa mi perfil profesional y fomenta mi creatividad.
+                </p>
+            </div>
+
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+                <h4>
+                    <i class='bx bx-rocket'></i> Emprendimiento e innovación
+                </h4>
+                <p>
+                    Emprender, ya sea en proyectos propios o colaborando con otros y hacer crecer ideas. Me motivan iniciativas innovadoras, aportando mis habilidades en gestión y tecnología para impulsar negocios a la eficiencia y sostenibilidad. Trabajar con otros y metas conjuntas es una parte esencial de mi visión profesional.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Experiencia Laboral -->
+<section class="section-2 py-5">
+    <div class="container">
+        <h2 class="text-center mb-4" data-aos="fade-up">Experiencia Laboral</h2>
+        <div class="row">
+            <!-- Gestión -->
+            <div class="col-md-6" data-aos="fade-up">
+                <h4>Gestión</h4>
+                <ul>
+                    <li>Asesor de Gestión (2021-2023)</li>
+                    <li>Coordinador de Talento, Diversidad e Inclusión (2016-2019)</li>
+                    <li>Coordinador Seminarios Mujeres en Ingeniería, SOCHEDI y Campamentos STEM (2016-2020)</li>
+                    <li>Ingeniero Asesor Proyecto Ing2030 (2016-2019)</li>
+                </ul>
+            </div>
+            <!-- Educación -->
+            <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <h4>Educación</h4>
+                <ul>
+                    <li>Asesor de rediseño curricular y acortamiento de carreras (2019-2021)</li>
+                    <li>Coordinador Campamentos STEM - USM (2016-2019)</li>
+                    <li>Docente Universitario (2024)</li>
+                    <li>Docente en Colegio (2013-2015)</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Botón Saber Más en lugar de la sexta tarjeta -->
+        <div class="col-md-8 offset-md-2 mt-4 d-flex align-items-center justify-content-center" data-aos="zoom-in" data-aos-delay="1000">
+            <button class="learn-more">
+                <span class="circle" aria-hidden="true">
+                    <span class="icon arrow"></span>
+                </span>
+                <span class="button-text">Saber más</span>
+            </button>
+        </div>
+    </div>
+</div>
+    </div>
+</section>
+
+<!-- Competencias -->
+<section class="section-1 py-5">
+    <div class="container">
+        <h2 class="text-center mb-4" data-aos="fade-up">Competencias</h2>
+        <p class="lead pb-5">
+            Estoy en constante mejora de mis competencias en gestión y tecnología, con un fuerte enfoque en la inteligencia artificial y la transformación digital. Mi objetivo es aplicar estos conocimientos para seguir creando soluciones innovadoras y adaptarme a los desafíos de un entorno siempre cambiante.
+        </p>
+        <div class="row justify-content-center">
+            <!-- Primer bloque -->
+            <div class="col-md-5 d-flex justify-content-center" data-aos="zoom-in">
+                <div class="container-sk">
+                    <div class="skill-box">
+                        <span class="title">Liderazgo en equipos multidisciplinarios</span>
+                        <div class="skill-bar">
+                            <span class="skill-per lider">
+                                <span class="tooltip">80%</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="skill-box">
+                        <span class="title">Proyectos con metodologías ágiles</span>
+                        <div class="skill-bar">
+                            <span class="skill-per proye">
+                                <span class="tooltip">70%</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="skill-box">
+                        <span class="title">Habilidades de comunicación, apertura</span>
+                        <div class="skill-bar">
+                            <span class="skill-per comu">
+                                <span class="tooltip">90%</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="skill-box">
+                        <span class="title">Adaptibilidad al cambio</span>
+                        <div class="skill-bar">
+                            <span class="skill-per cambio">
+                                <span class="tooltip">100%</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Segundo bloque -->
+            <div class="col-md-5 d-flex justify-content-center" data-aos="zoom-in">
+                <div class="container-sk">
+                    <div class="skill-box">
+                        <span class="title">Transformación digital e IA</span>
+                        <div class="skill-bar">
+                            <span class="skill-per trans">
+                                <span class="tooltip">80%</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="skill-box">
+                        <span class="title">Adaptación nuevas tecnologías</span>
+                        <div class="skill-bar">
+                            <span class="skill-per adapt">
+                                <span class="tooltip">100%</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="skill-box">
+                        <span class="title">Desarrollo Full-Stack (Django-Python-SQL)</span>
+                        <div class="skill-bar">
+                            <span class="skill-per fullst">
+                                <span class="tooltip">70%</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="skill-box">
+                        <span class="title">Resolución de problemas, optimización</span>
+                        <div class="skill-bar">
+                            <span class="skill-per resol">
+                                <span class="tooltip">95%</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Proyectos Personales -->
+<section class="section-2 py-5">
+    <div class="container">
+        <h2 class="text-center mb-4" data-aos="fade-up">Proyectos Personales</h2>
+        <div class="row">
+            <div class="col-md-4" data-aos="fade-up">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class='bx bxs-folder-open bx-lg'></i>
+                        <h5 class="card-title">Proyecto STEM</h5>
+                        <p class="card-subtitle">Coordinación del Campamento STEM para futuros estudiantes universitarios.</p>
+                        <a href="#" class="btn btn-primary button-primary">Saber más</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Puedes agregar más proyectos aquí -->
+        </div>
+    </div>
+</section>
+
+<!-- Visita mi Blog -->
+<section class="section-1 py-5">
+    <div class="container">
+        <h2 class="text-center mb-4" data-aos="fade-up">Blog</h2>
+        <div class="row">
+            <div class="col-md-12 text-center" data-aos="fade-up">
+                <p class="lead">Visita mi Blog.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Carrusel de logos -->
+<section class="section-2 py-5">
+    <div class="container">
+        <h2 class="text-center mb-4" data-aos="fade-up">Herramientas y Software</h2>
+        <div id="carouselLogos" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src="https://via.placeholder.com/300x150?text=Logo1" alt="Logo 1">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="https://via.placeholder.com/300x150?text=Logo2" alt="Logo 2">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="https://via.placeholder.com/300x150?text=Logo3" alt="Logo 3">
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselLogos" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Anterior</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselLogos" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Siguiente</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Frase Inspiradora -->
+<section class="hero-banner section-1 text-center d-flex align-items-center justify-content-center" style="background-image: url('https://source.unsplash.com/1600x900/?inspiration'); height: 50vh;">
+    <div class="container">
+        <blockquote class="blockquote" data-aos="fade-up">
+            <p class="mb-0">"Tu trabajo va a llenar una parte importante de tu vida, y la única manera de estar verdaderamente satisfecho es hacer lo que crees que es un gran trabajo. Y la única manera de hacer un gran trabajo es amar lo que haces." — Steve Jobs</p>
+        </blockquote>
+    </div>
+</section>
+
+<!-- Formulario de Contacto -->
+<section class="section-2 py-5">
+    <div class="container">
+        <h2 class="text-center mb-4" data-aos="fade-up">Contáctame</h2>
+        <form data-aos="fade-up">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="name" placeholder="Ingresa tu nombre">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo Electrónico</label>
+                <input type="email" class="form-control" id="email" placeholder="Ingresa tu correo electrónico">
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Mensaje</label>
+                <textarea class="form-control" id="message" rows="3" placeholder="Escribe tu mensaje"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary button-primary">Enviar</button>
+        </form>
+    </div>
+</section>
+
+{% endblock %}
